@@ -44,6 +44,7 @@
     <div data-role="main" class="ui-content">
         <p>
             <a target="_blank" href="javascript:scan();" style="text-decoration: none"><button>Scan</button></a>
+            <a target="_blank" href="javascript:email();" style="text-decoration: none"><button>Mail</button></a>
             <a target="_blank" href="#display" style="text-decoration: none"><button>Display Scanned Data</button></a>
         </p>
     </div>
@@ -78,12 +79,27 @@ if(localStorage.getItem("LocalData") == null)
     localStorage.setItem("LocalData", data);
 }
 </script>
+<script>
+function email() {
+    cordova.plugins.email.open({
+    from:       "moi", // sending email account (iOS only)
+    to:          "dc@webformation.fr", // email addresses for TO field
+    cc:          "", // email addresses for CC field
+    bcc:         "", // email addresses for BCC field
+    attachments: "", // file paths or base64 data streams
+    subject:    "essai sujet", // subject of the email
+    body:       "essai contenu", // email body
+    isHtml:    false  // indicats if the body is HTML or plain text (primarily iOS)
+});
+}
+</script>
 <script>function scan()
 {
     cordova.plugins.barcodeScanner.scan(
         function (result) {
             if(!result.cancelled)
             {
+                alert(result.text);
                 if(result.format == "QR_CODE")
                 {
                     navigator.notification.prompt("Please enter name of data",  function(input){
