@@ -23,6 +23,7 @@
     <author email="dc@webformation.fr" href="http://www.webformation.fr">
         Dominique Colombani
     </author>
+    <icon src="res/icon.png" />
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
