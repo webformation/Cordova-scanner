@@ -78,7 +78,7 @@ function email() {
 		bcc:         "", // email addresses for BCC field
 		subject:    "solti scan", // subject of the email
 		body:       txt, // email body
-		attachments: ['base64:icon.png//iVBORw0KGgoAAAANSUhEUgAAADwAA'],
+		attachments: ['base64:donnee.txt//' + btoa(txt)],
 		isHtml:    false  // indicats if the body is HTML or plain text (primarily iOS)
 	});
 }
