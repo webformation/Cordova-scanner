@@ -72,15 +72,15 @@ function email() {
 		txt = txt + data[count][1] + "\n";
     }
     cordova.plugins.email.open({
-    from:       "application scan solti", // sending email account (iOS only)
-    to:          "info@solti.fr", // email addresses for TO field
-    cc:          "", // email addresses for CC field
-    bcc:         "", // email addresses for BCC field
-    attachments: "", // file paths or base64 data streams
-    subject:    "solti scan", // subject of the email
-    body:       txt, // email body
-    isHtml:    false  // indicats if the body is HTML or plain text (primarily iOS)
-});
+		from:       "application scan solti", // sending email account (iOS only)
+		to:          "info@solti.fr", // email addresses for TO field
+		cc:          "", // email addresses for CC field
+		bcc:         "", // email addresses for BCC field
+		subject:    "solti scan", // subject of the email
+		body:       txt, // email body
+		attachments: ['base64:icon.png//iVBORw0KGgoAAAANSUhEUgAAADwAA'],
+		isHtml:    false  // indicats if the body is HTML or plain text (primarily iOS)
+	});
 }
 </script>
 <script>function scan()
