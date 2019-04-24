@@ -65,7 +65,7 @@ function email() {
 
     for(var count = 0; count < data.length; count++)
     {
-		txt = txt + data[count][0] + " " + data[count][1] + "\n";
+		txt = txt + data[count][1] + "\n";
     }
     cordova.plugins.email.open({
     from:       "application scan solti", // sending email account (iOS only)
@@ -85,17 +85,19 @@ function email() {
         function (result) {
             if(!result.cancelled)
             {
-				var name = result.format;
-				var value = result.text;
+				 navigator.notification.prompt("Please enter number of items",  function(input){
+                    var nombre = input.input1;
+					var name = result.format;
+					var value = 'o;' + result.text +';' + nombre;
+					var data = localStorage.getItem("LocalData");
 
-				var data = localStorage.getItem("LocalData");
-				console.log(data);
-				data = JSON.parse(data);
-				data[data.length] = [name, value];
+					data = JSON.parse(data);
+					data[data.length] = [name, value];
 
-				localStorage.setItem("LocalData", JSON.stringify(data));
+					localStorage.setItem("LocalData", JSON.stringify(data));
 
-				alert(name + ':' + value + ' enregistré');
+				alert(value + 'stored');
+				});
             }
         },
         function (error) {
