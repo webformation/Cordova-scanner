@@ -28,7 +28,7 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' * *.jquery.com data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' *.jquery.com data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -36,40 +36,15 @@
         <title>Scan Code Barre</title>
     </head>
     <body>
-   <div data-role="page" id="home">
-    <div data-role="header">
-        <h1>Home</h1>
-    </div>
 
-    <div data-role="main" class="ui-content">
         <p>
             <a target="_blank" onclick="scan();return false" style="text-decoration: none"><button>Scan</button></a>
             <a target="_blank" onclick="email();return false" style="text-decoration: none"><button>Mail</button></a>
-            <a target="_blank" onclick="display();return false" style="text-decoration: none"><button>Display Scanned Data</button></a>
         </p>
-    </div>
-</div>
-<div data-role="page" id="display">
-    <div data-role="header">
-        <a target="_blank" href="#home" class="ui-btn ui-icon-home ui-btn-icon-left">Home</a>
-        <h1>Display</h1>
-    </div>
 
-    <div data-role="main" class="ui-content">
-        <table data-role="table" data-mode="column" id="allTable" class="ui-responsive table-stroke">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-</div>
+
+
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 <script type="text/javascript" src="cordova.js"></script>
 <script>
 if (typeof(Storage) === "undefined") {
@@ -84,14 +59,22 @@ if(localStorage.getItem("LocalData") == null)
 </script>
 <script>
 function email() {
+	var data = localStorage.getItem("LocalData");
+    data = JSON.parse(data);
+	var txt = "";
+
+    for(var count = 0; count < data.length; count++)
+    {
+		txt = txt + data[count][0] + " " + data[count][1] + "\n";
+    }
     cordova.plugins.email.open({
-    from:       "moi", // sending email account (iOS only)
-    to:          "dc@webformation.fr", // email addresses for TO field
+    from:       "application scan solti", // sending email account (iOS only)
+    to:          "info@solti.fr", // email addresses for TO field
     cc:          "", // email addresses for CC field
     bcc:         "", // email addresses for BCC field
     attachments: "", // file paths or base64 data streams
-    subject:    "essai sujet", // subject of the email
-    body:       "essai contenu", // email body
+    subject:    "solti scan", // subject of the email
+    body:       txt, // email body
     isHtml:    false  // indicats if the body is HTML or plain text (primarily iOS)
 });
 }
@@ -119,26 +102,6 @@ function email() {
             alert("Scanning failed: " + error);
         }
    );
-}
-</script>
-<script>
-function display() {
-    $("table#allTable tbody").empty();
-
-    var data = localStorage.getItem("LocalData");
-					alert(data);
-    console.log(data);
-    data = JSON.parse(data);
-
-    var html = "";
-
-    for(var count = 0; count < data.length; count++)
-    {
-        html = html + "<tr><td>" + data[count][0] + "</td><td>" + data[count][1] + "</td></tr>";
-    }
-
-    $("table#allTable tbody").append(html).closest("table#allTable").table("refresh").trigger("create");
-
 }
 </script>
     </body>
