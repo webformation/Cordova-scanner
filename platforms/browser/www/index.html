@@ -42,7 +42,12 @@
 <div class="col-6 text-center">
         <p>
             <a class="btn btn-primary" target="_blank" onclick="scan();return false" style="text-decoration: none">Scan</a>
+			</p>
+			<p>
             <a class="btn btn-std" target="_blank" onclick="email();return false" style="text-decoration: none">Mail</a>
+        </p>
+					<p>
+            <a class="btn btn-std" target="_blank" onclick="settings();return false" style="text-decoration: none">Settings</a>
         </p>
 		</div>
 </div>
@@ -60,6 +65,9 @@ if(localStorage.getItem("LocalData") == null)
     data = JSON.stringify(data);
     localStorage.setItem("LocalData", data);
 }
+if(localStorage.getItem("Email") == null || localStorage.getItem("Email") == '')
+	localStorage.setItem("Email", 'info@solti.fr');
+}
 </script>
 <script>
 function email() {
@@ -73,7 +81,7 @@ function email() {
     }
     cordova.plugins.email.open({
 		from:       "application scan solti", // sending email account (iOS only)
-		to:          "info@solti.fr", // email addresses for TO field
+		to:          localStorage.getItem("Email"), // email addresses for TO field
 		cc:          "", // email addresses for CC field
 		bcc:         "", // email addresses for BCC field
 		subject:    "solti scan", // subject of the email
@@ -81,6 +89,16 @@ function email() {
 		attachments: ['base64:donnee.txt//' + btoa(txt)],
 		isHtml:    false  // indicats if the body is HTML or plain text (primarily iOS)
 	});
+}
+</script>
+<script>
+function settings()
+{
+	navigator.notification.prompt("Email",  function(input){
+		var email = input.input1;
+		if (input.buttonIndex != 1) return;
+		localStorage.setItem("Email", email);
+	}, '','',localStorage.getItem("Email"));
 }
 </script>
 <script>function scan()

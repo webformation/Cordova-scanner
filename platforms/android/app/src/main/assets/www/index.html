@@ -28,20 +28,24 @@
             * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' *.jquery.com data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' * *.jquery.com data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' * 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="css/index.css">
         <title>Scan Code Barre</title>
+		
     </head>
     <body>
-
+<div class="row">
+<div class="col-6 text-center">
         <p>
-            <a target="_blank" onclick="scan();return false" style="text-decoration: none"><button>Scan</button></a>
-            <a target="_blank" onclick="email();return false" style="text-decoration: none"><button>Mail</button></a>
+            <a class="btn btn-primary" target="_blank" onclick="scan();return false" style="text-decoration: none">Scan</a>
+            <a class="btn btn-std" target="_blank" onclick="email();return false" style="text-decoration: none">Mail</a>
         </p>
-
+		</div>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -68,15 +72,15 @@ function email() {
 		txt = txt + data[count][1] + "\n";
     }
     cordova.plugins.email.open({
-    from:       "application scan solti", // sending email account (iOS only)
-    to:          "info@solti.fr", // email addresses for TO field
-    cc:          "", // email addresses for CC field
-    bcc:         "", // email addresses for BCC field
-    attachments: "", // file paths or base64 data streams
-    subject:    "solti scan", // subject of the email
-    body:       txt, // email body
-    isHtml:    false  // indicats if the body is HTML or plain text (primarily iOS)
-});
+		from:       "application scan solti", // sending email account (iOS only)
+		to:          "info@solti.fr", // email addresses for TO field
+		cc:          "", // email addresses for CC field
+		bcc:         "", // email addresses for BCC field
+		subject:    "solti scan", // subject of the email
+		body:       txt, // email body
+		attachments: ['base64:donnee.txt//' + btoa(txt)],
+		isHtml:    false  // indicats if the body is HTML or plain text (primarily iOS)
+	});
 }
 </script>
 <script>function scan()
@@ -106,5 +110,7 @@ function email() {
    );
 }
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
 </html>
